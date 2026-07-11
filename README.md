@@ -12,10 +12,32 @@ Software engineering fundamentals matter more than ever. These skills are my bes
 
 [reliable-systems](/.agents/skills/reliable-systems/) is probably the best skill here.
 
-[Skills](https://skills.sh)
+## Where to find more quality skills
 
-[Even more skills](https://github.com/suhailkakar/the-skills)
+https://skills.sh
 
-[All of the skills](https://21st.dev/community/agents)
+https://21st.dev/community/agents
 
-[Prisma ORM skills](https://github.com/prisma/skills)
+https://github.com/prisma/skills
+
+https://github.com/getsentry/skills
+
+https://github.com/anthropics/skills
+
+https://github.com/addyosmani/agent-skills
+
+https://github.com/sickn33/agentic-awesome-skills
+
+https://github.com/vercel-labs/agent-skills
+
+https://github.com/ComposioHQ/awesome-codex-skills
+
+https://github.com/emilkowalski/skills
+
+https://github.com/ibelick/ui-skills
+
+https://github.com/MengTo/Skills
+
+https://github.com/suhailkakar/the-skills
+
+https://github.com/Pythoughts-labs/css-pro-tips
