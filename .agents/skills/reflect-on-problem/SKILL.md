@@ -1,5 +1,5 @@
 ---
-name: reflect-problem
+name: reflect-on-problem
 description: Reflect on the possible sources of the problem
 disable-model-invocation: true
 ---
