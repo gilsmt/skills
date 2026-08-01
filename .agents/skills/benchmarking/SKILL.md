@@ -1,5 +1,5 @@
 ---
-name: benchmarking-best-practices
+name: benchmarking
 description: Different ways of writing similar logic (e.g., for loops vs. forEach) can have significant performance differences. This covers essential concepts and best practices to ensure your benchmarks measure actual performance characteristics rather than optimization artifacts.
 ---
 

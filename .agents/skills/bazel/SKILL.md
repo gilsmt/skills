@@ -1,7 +1,6 @@
 ---
 title: "Bazel"
 description: "Why use Bazel and how to work with it"
-disable-model-invocation: true
 ---
 
 ## The problem
