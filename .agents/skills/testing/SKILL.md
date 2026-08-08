@@ -1,5 +1,5 @@
 ---
-title: Testing
+name: testing
 description: Testing standards and patterns. Use when the user writes tests, asks "should I write a test for this?"
 ---
 

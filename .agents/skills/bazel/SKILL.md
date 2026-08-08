@@ -1,6 +1,6 @@
 ---
-title: "Bazel"
-description: "Why use Bazel and how to work with it"
+name: bazel
+description: Why use Bazel and how to work with it
 ---
 
 ## The problem
