@@ -12,7 +12,6 @@ Creating accurate and meaningful benchmarks requires careful attention to how mo
 - Focus on bottlenecks: optimize the code sections that consume the most runtime, not just any slow-looking code.
 - Prioritize readability: write clear, maintainable code first, and only optimize if benchmarks show a real need.
 - Document optimization rationale: when changing code for performance, include comments explaining the benchmark results and reasoning.
-- Doubt your results: if a change "runs 100x faster", verify it in production before trusting the benchmark.
 
 ## Setup with mitata
 
@@ -100,20 +99,25 @@ When benchmarking DOM code, avoid layout thrashing — interleaved reads and wri
 ```ts
 // ❌ Bad: alternating reads and writes (each read forces layout)
 for (const el of elements) {
-  el.style.height = el.offsetHeight * 2;
+  el.style.height = `${el.offsetHeight * 2}px`;
 }
 
 // ✅ Good: batch reads first, then writes
 const heights = elements.map((el) => el.offsetHeight);
 for (let i = 0; i < elements.length; i++) {
-  elements[i].style.height = heights[i] * 2;
+  elements[i].style.height = `${heights[i] * 2}px`;
 }
 ```
 
 - `document.getElementById` is already highly optimized in modern browsers; don't cache DOM references preemptively — measure first.
 
+## Doubt your results
+
+If you’ve just optimized a function and it now runs faster, doubt it. Try to disprove your results, try it in production mode, throw stuff at it. Similarly, doubt also your tools. The mere fact of observing a benchmark with devtools can modify its behavior. JS engines are very complex, and will often behave differently in micro-benchmarks than in real-world scenarios.
+
 ## References
 
 - [mitata](https://github.com/evanwashere/mitata) — the benchmarking library used above
 - [Optimizing JavaScript (romgrk)](https://romgrk.com/posts/optimizing-javascript) — engine-level techniques and case against micro-benchmark-driven optimization
+- [V8 Blog Archive](https://v8.dev/blog) — general technical insights into V8
 - [LLVM Benchmarking tips](https://llvm.org/docs/Benchmarking.html) — general micro-benchmark methodology
