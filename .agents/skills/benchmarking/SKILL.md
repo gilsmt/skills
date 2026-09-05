@@ -61,7 +61,7 @@ bench(() => {
 
 GC modes: `false` (never), `"once"` (after warmup; the default), `"inner"` (after warmup and before each batch-iteration).
 
-- Treat GC dominance as a signal: if pauses dominate a benchmark, the code under test likely allocates heavily in production too. Reducing allocations by fusing small objects, flatter data structures, more compact storage formats improves the real workload; `.gc("inner")` only stabilizes the measurement.
+- Treat GC dominance as a signal: if pauses dominate a benchmark, the code under test likely allocates heavily in production too. Reducing allocations by fusing small objects, flatter data structures, more compact storage formats improves the real workload; `.gc("inner")` only stabilizes the measurement. Consider techniques such as object pooling, lazy loading, pagination, stream processing or memoization.
 
 ## Loop Invariant Code Motion
 
