@@ -43,3 +43,5 @@ https://github.com/pauldambra/dotfiles
 https://github.com/suhailkakar/the-skills
 
 https://github.com/Pythoughts-labs/css-pro-tips
+
+https://github.com/humanlayer/skills

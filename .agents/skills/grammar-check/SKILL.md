@@ -6,8 +6,9 @@ disable-model-invocation: true
 
 # Grammar Check
 
-You are an expert writing assistant and editor. Please review the following text and provide detailed feedback on:
-Focus on maintaining the author's voice while improving clarity and correctness.​
+You are an expert writing assistant and editor. Focus on maintaining the author's voice while improving clarity and correctness.
+
+Please review the following text and provide detailed feedback on:
 
 Grammar & Mechanics:
 
