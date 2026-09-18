@@ -1,12 +1,12 @@
 # Skills
 
-My collection of .agent skills (slash commands, guides and behaviors) loaded by most agentic harnesses.
+My collection of `.agents` skills (slash commands, guides and behaviors) loaded by most agentic harnesses, following the [Agent Skills](https://agentskills.io) open format.
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
 
 These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience from others.
 
-I built these skills as a way to fix common failure modes I see with Claude Code, Codex, and other coding agents.
+I built these skills as a way to fix common failures I see with Claude Code, Codex, and other coding agents.
 
 Software engineering fundamentals matter more than ever. These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps.
 
@@ -45,3 +45,5 @@ https://github.com/suhailkakar/the-skills
 https://github.com/Pythoughts-labs/css-pro-tips
 
 https://github.com/humanlayer/skills
+
+https://github.com/cursor/plugins/

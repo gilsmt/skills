@@ -42,7 +42,7 @@ Focus only on the specified file(s) or directory. Do not make changes outside th
 
 ### Phase 1: Identify Changes
 
-If reviewing recent work, run `git diff` (or `git diff HEAD` if there are staged changes) to see what changed. If there are no git changes, review the most recently modified files the user mentioned or that were edited earlier in the conversation.
+If reviewing recent work, run `git diff` (or `git diff HEAD` if there are staged changes) to see what changed. If there are no git changes, review the most recently modified files or PR the user mentioned, or that were edited earlier in the conversation.
 
 ### Phase 2: Launch Three Review Agents in Parallel
 
@@ -53,6 +53,7 @@ Analyze the code from three angles. Use the Task tool to launch all three agents
 1. **Search for existing utilities and helpers** that could replace newly written code. Look for similar patterns elsewhere in the codebase — common locations are utility directories, shared modules, and files adjacent to the changed ones.
 2. **Flag any new function that duplicates existing functionality.** Suggest the existing function to use instead.
 3. **Flag any inline logic that could use an existing utility** — hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
+4. If the new code creates a shared helper, verify it has real reuse and is not just extracted private logic with a vague name
 
 ### Agent 2: Code Quality Review
 
@@ -64,6 +65,8 @@ Review the relevant file(s) for hacky patterns:
 4. **Leaky abstractions**: exposing internal details that should be encapsulated, or breaking existing abstraction boundaries
 5. **Stringly-typed code**: using raw strings where constants, enums (string unions), or branded types already exist in the codebase
 6. **Unnecessary JSX nesting**: wrapper Boxes/elements that add no layout value — check if inner component props (flexShrink, alignItems, etc.) already provide the needed behavior
+7. **Parameter sprawl**: passing too many parameters to a function, making it hard to read and maintain. Check whether the boundary is wrong
+8. Keep domain-specific logic close to its domain unless there is proven cross-domain reuse
 
 ### Agent 3: Efficiency Review
 
