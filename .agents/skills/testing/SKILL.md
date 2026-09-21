@@ -36,6 +36,8 @@ expect(formatDate(new Date("2026-05-07"))).toBe("2026-05-07");
 
 Ask what bug this test would catch that the compiler, a code review, or a more meaningful test would not.
 
+Never mock the database in tests.
+
 ### Testing observability
 
 Do not verify every log line or metric increment. Test metrics that drive alerts or SLOs. Test that error conditions produce the logs operators need for debugging.
