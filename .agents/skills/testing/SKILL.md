@@ -36,6 +36,12 @@ expect(formatDate(new Date("2026-05-07"))).toBe("2026-05-07");
 
 Ask what bug this test would catch that the compiler, a code review, or a more meaningful test would not.
 
+Avoid writing unit tests after you code.
+
+If you must test a system in isolation, first write down all the ways it could fail, then write the code.
+
+Highly prefer E2E tests as the sole testing mechanism. Use them to verify complex features work. At the end of the E2E test, produce a verifiable and repeatable artifact.
+
 Never mock the database in tests.
 
 ### Testing observability
