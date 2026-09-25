@@ -36,13 +36,100 @@ expect(formatDate(new Date("2026-05-07"))).toBe("2026-05-07");
 
 Ask what bug this test would catch that the compiler, a code review, or a more meaningful test would not.
 
-Avoid writing unit tests after you code.
+Each contract has one primary test owner at the strongest boundary that can
+observe it (usually E2E or integration over unit). A second layer needs its
+own distinct risk — e.g. transport, lifecycle, or error-mapping failure the
+owner cannot reach. Prefer extending a table-driven case or shared fixture
+over adding a near-duplicate test; consolidate duplicated setup in the same
+change.
 
-If you must test a system in isolation, first write down all the ways it could fail, then write the code.
+Avoid writing unit tests after you code. If you must test a system in
+isolation, first write down all the ways it could fail, then write the code.
 
-Highly prefer E2E tests as the sole testing mechanism. Use them to verify complex features work. At the end of the E2E test, produce a verifiable and repeatable artifact.
+Highly prefer E2E tests as the sole testing mechanism. Use them to verify
+complex features work. At the end of the E2E test, produce a verifiable and
+repeatable artifact.
 
 Never mock the database in tests.
+
+## Authoring gate — before adding a test
+
+A missing answer means do not add it yet:
+
+1. What observable behavior, invariant, or independent contract does it protect?
+2. What credible regression makes it fail? If you can't name it, don't add it.
+3. Why does existing coverage not already catch that failure? State the
+   distinct risk or boundary vs. the current owner.
+4. Does it need a production seam (export, flag, wrapper, injection hook) that
+   no production caller needs? If yes, move the test to the real boundary
+   instead of adding the seam.
+
+Then check against [junk patterns](#junk-patterns). A match fails the gate
+unless [retention bar](#retention-bar) names the contract it independently
+guards. A test that would break under a behavior-preserving refactor is
+asserting implementation, not behavior — rewrite it at the owning boundary
+before landing it.
+
+## Junk patterns — do not add, prune on sight
+
+Shared checklist for authoring and audits:
+
+- Assertion-free coverage probes (test passes with no assertions).
+- Self-comparisons, identity copiers, tautologies.
+- Copied fixtures, inventories, manifests, or export lists that re-assert source.
+- Exact source, import, or string greps (unless they meet the retention bar below).
+- Private-predicate or call-shape tests duplicated at a real boundary
+  (e.g. `toHaveBeenCalledWith` where a behavior assertion would do).
+- Duplicate invocations of the same contract at multiple layers without
+  distinct risk.
+- Provider-local replays of shared helpers (same helper re-tested per consumer).
+- Tests whose only purpose is preserving test-only exports, globals, or wrappers.
+- Dead production code whose only callers are tests.
+- Expected values produced by the helper or renderer under test.
+- Mocks that implement the asserted behavior, or one identical mock standing in
+  for different APIs.
+- Fixtures that supply the receipt, admission, or callback ordering the owner
+  should produce; persistence asserted against a store the path never writes.
+- Capability tests that restate declared flags instead of exercising the
+  delivery or acknowledgement the flag promises.
+- Negative controls that pass for an unrelated reason (denial from a different
+  guard, rejection the production path never reaches).
+- Names or fixtures that promise more than the input exercises.
+
+## Retention bar — when to keep
+
+Keep a test when it independently enforces a public API, SDK, protocol,
+config, migration, storage, security, platform, default, or architecture
+contract. Also keep:
+
+- Call ordering when order is observable behavior.
+- Regressions with a credible failure mode (see below).
+- Source inspection when it is the cheapest independent guard: it fails when
+  the user-facing contract changes (key, byte, path) and survives an
+  identifier-only refactor.
+- Slow or static tests — slowness alone is not a deletion reason.
+
+In an audit, a test that must change for a behavior-preserving reorganization
+is suspect, not automatically deletable. Before judging a candidate, read the
+complete test and its production owner, entry point, callers, overlapping
+tests, and history. A retained test that fails on baseline is a possible
+product bug — reproduce it and repair the owner rather than deleting it.
+
+## Regression tests
+
+Bug regression tests must fail on the pre-fix code for the intended reason
+and pass after the owner-boundary repair. A regression test that never
+demonstrably failed proves the mock, not the fix. One regression at the owner
+boundary covers the bug; do not replay the same scenario at every layer it
+crosses.
+
+## Test-only seams
+
+Delete obsolete test-only exports, globals, wrappers, and dead production
+paths instead of preserving aliases. Move retained regressions to their
+canonical owners. Prefer net-negative production LOC. Do not add replacement
+tests that restate the same implementation, and do not convert uncertain
+candidates into cleanup to inflate deletion counts.
 
 ### Testing observability
 
@@ -82,6 +169,10 @@ Tests that acquire resources must clean them up.
 
 ## Quick checklist
 
+- [ ] Authoring gate answered (behavior, regression, owner, no test-only seam)
+- [ ] No junk pattern match, or retention bar names the contract
+- [ ] Regression fails pre-fix for intended reason, passes after
+- [ ] One owner boundary per contract; no cross-layer replays
 - [ ] Tests exercise behavior, not implementation
 - [ ] Backend logic uses integration tests (real DB) by default
 - [ ] Mocks only as last resort; prefer real or fake
@@ -91,3 +182,5 @@ Tests that acquire resources must clean them up.
 - [ ] No sleep() band-aids; flakes are bugs to fix
 - [ ] Time / random / network injected, not real
 - [ ] Coverage isn't the goal; bug recurrence is
+
+<!-- Lessons merged from https://github.com/openclaw/openclaw/blob/main/.agents/skills/test-audit/SKILL.md: authoring gate, junk patterns, retention bar, owner-boundary, regression discipline, test-only seams. OpenClaw-specific workflow (CAMPAIGN.md, run-vitest, crabbox, autoreview, PR flow) intentionally omitted. -->
