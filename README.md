@@ -10,8 +10,6 @@ I built these skills as a way to fix common failures I see with Claude Code, Cod
 
 Software engineering fundamentals matter more than ever. These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps.
 
-[reliable-systems](/.agents/skills/reliable-systems/) is probably the best skill here.
-
 ## Where to find more quality skills
 
 https://skills.sh
@@ -46,4 +44,8 @@ https://github.com/Pythoughts-labs/css-pro-tips
 
 https://github.com/humanlayer/skills
 
-https://github.com/cursor/plugins/
+https://github.com/mattpocock/skills
+
+https://github.com/cursor/plugins
+
+https://github.com/obra/superpowers
