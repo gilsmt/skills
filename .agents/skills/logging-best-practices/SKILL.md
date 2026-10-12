@@ -3,7 +3,7 @@ name: logging-best-practices
 description: Use before implementing logs in a medium to large scale production system.
 ---
 
-> This skill is adpated from ["Logging sucks. And here's how to make it better.](https://loggingsucks.com/) by Boris Tane.
+<!-- Based on ["Logging sucks. And here's how to make it better.](https://loggingsucks.com/) by Boris Tane. -->
 
 When helping with logging, observability, or debugging strategies, follow these principles:
 
