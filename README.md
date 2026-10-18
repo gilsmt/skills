@@ -12,8 +12,6 @@ Software engineering fundamentals matter more than ever. These skills are my bes
 
 https://skills.sh
 
-https://21st.dev/community/agents
-
 https://github.com/prisma/skills
 
 https://github.com/getsentry/skills
