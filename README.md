@@ -24,6 +24,10 @@ https://github.com/sickn33/agentic-awesome-skills
 
 https://github.com/vercel-labs/agent-skills
 
+https://github.com/jakubkrehel/skills
+
+https://github.com/dzhng/skills
+
 https://github.com/ComposioHQ/awesome-codex-skills
 
 https://github.com/emilkowalski/skills
