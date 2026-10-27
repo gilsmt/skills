@@ -1,3 +1,8 @@
+---
+name: no-over-abstraction
+description: Guides code changes toward simple, collocated implementations and helps decide when to introduce abstractions. Use when adding or modifying code, reviewing proposed abstractions, or considering extracting helpers, components, layers, or files.
+---
+
 # Do not over-abstract
 
 <!-- Based on https://ondrejvelisek.github.io/the-cost-of-abstraction-for-humans-and-ai-agents -->
