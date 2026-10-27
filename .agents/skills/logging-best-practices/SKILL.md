@@ -18,7 +18,7 @@ When helping with logging, observability, or debugging strategies, follow these 
 
 - Always use key-value pairs (JSON) instead of string interpolation
 - Bad: "Payment failed for user 123"
-- Good: {"event": "payment_failed", "user_id": "123", "reason": "insufficient_funds", "amount": 99.99}
+- Good (with an approved pseudonymous identifier): {"event": "payment_failed", "user_ref": "usr_7k2", "reason": "insufficient_funds", "amount": 99.99}
 - Structured logs are machine-parseable, enabling aggregation, alerting, and dashboards
 
 ## Required Fields for Every Log Event
@@ -30,15 +30,17 @@ When helping with logging, observability, or debugging strategies, follow these 
 - service — which service/application emitted this log
 - environment — prod, staging, dev
 
-## Examples of High-Cardinality Fields (always include when available):
+## Examples of High-Cardinality Fields (include when available and permitted):
 
 - user_id, org_id, account_id — who is affected
 - request_id, trace_id, span_id — for distributed tracing
 - order_id, transaction_id, job_id — domain-specific identifiers
 
-These fields are what make logs actually queryable during incidents. Without them, you're grepping through millions of lines blindly.
+These fields make logs queryable during incidents. Include person-linked identifiers such as `user_id`, `org_id`, or `account_id` only when they are needed for a defined operational purpose and permitted by the applicable data-classification and privacy policy. Treat them as potentially personal or sensitive data.
 
-Look for opportunities for high-cardinality fields that can help you identify the root cause of an issue quickly.
+When user-level correlation is needed, prefer an approved, purpose-scoped pseudonymous identifier over direct identifiers such as a name, email address, or phone number. Pseudonymous identifiers remain sensitive and still need appropriate access and retention controls. Omit identifiers when they are not needed or are not approved; use request/trace IDs or aggregate data instead. Never log credentials or raw tokens.
+
+Look for opportunities to include approved high-cardinality fields that can help identify the root cause of an issue quickly.
 
 ## Context Propagation
 
@@ -67,7 +69,7 @@ What to Log:
 
 What NOT to Log:
 
-- Sensitive data (passwords, tokens, PII, credit card numbers)
+- Sensitive data (passwords, tokens, credit card numbers, or PII unless its use is necessary and approved; pseudonymous identifiers still require protection)
 - Logs inside tight loops (will generate millions of useless entries)
 - Success cases that provide no debugging value
 - Redundant information already captured by infrastructure (load balancer logs, etc.)

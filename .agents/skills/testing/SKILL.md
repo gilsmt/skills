@@ -1,6 +1,6 @@
 ---
 name: testing
-description: Testing standards and patterns.
+description: Guides writing, reviewing, and improving software tests, including test selection, unit and integration testing, regression coverage, and test quality. Use when creating or evaluating tests for code.
 ---
 
 <!-- Based on https://github.com/unkeyed/unkey/blob/main/docs/engineering/contributing/quality/testing/index.mdx -->
@@ -36,19 +36,28 @@ expect(formatDate(new Date("2026-05-07"))).toBe("2026-05-07");
 
 Ask what bug this test would catch that the compiler, a code review, or a more meaningful test would not.
 
-Each contract has one primary test owner at the strongest boundary that can
-observe it (usually E2E or integration over unit). A second layer needs its
-own distinct risk — e.g. transport, lifecycle, or error-mapping failure the
-owner cannot reach. Prefer extending a table-driven case or shared fixture
-over adding a near-duplicate test; consolidate duplicated setup in the same
-change.
+Each contract has one primary test owner at the lowest-cost boundary that can
+observe the contract and the credible failure mode. Choose the level from the
+behavior under test and the project's existing test structure:
+
+- Use unit tests for isolated logic and transformations whose failures are
+  observable without running the application.
+- Use integration tests when the contract depends on real boundaries such as
+  persistence, transactions, adapters, or service interactions.
+- Use E2E tests for critical user-visible flows or wiring across components
+  that lower-level tests cannot observe.
+
+For E2E flows that produce an artifact, verify that artifact and keep its
+production repeatable.
+
+A second layer needs its own distinct risk — e.g. transport, lifecycle, or
+error-mapping failure the primary owner cannot reach. Prefer extending a
+table-driven case or shared fixture over adding a near-duplicate test;
+consolidate duplicated setup in the same change. Keep E2E coverage focused on
+the flows that need it rather than using it as the sole test mechanism.
 
 Avoid writing unit tests after you code. If you must test a system in
 isolation, first write down all the ways it could fail, then write the code.
-
-Highly prefer E2E tests as the sole testing mechanism. Use them to verify
-complex features work. At the end of the E2E test, produce a verifiable and
-repeatable artifact.
 
 Never mock the database in tests.
 
@@ -136,8 +145,7 @@ candidates into cleanup to inflate deletion counts.
 Do not verify every log line or metric increment. Test metrics that drive alerts or SLOs. Test that error conditions produce the logs operators need for debugging.
 
 ```ts
-import { test, expect } from "bun:test";
-
+// Pseudocode: use the test and assertion APIs provided by this project.
 test("rate limiter emits rejection metric", () => {
   const collector = new TestMetricCollector();
   const limiter = new RateLimiter({ limit: 1 }, collector);
@@ -151,19 +159,20 @@ test("rate limiter emits rejection metric", () => {
 
 ## Test organization
 
-Unit Tests live alongside the code they test. A file `lib.ts` has its tests in `lib.test.ts` in the same directory.
-
-For integration tests that require substantial setup, expensive cross-service or external dependencies, put in an `integration/` subdirectory when it improves clarity, and for end-to-end testing `e2e/`.
+Follow the project's existing test layout and naming conventions. Keep tests
+near the code they cover when that is the project convention. Put integration
+tests with substantial setup or external dependencies in a dedicated location
+when it improves clarity, and use the project's established E2E test location.
 
 ## Running tests
 
-During development, run tests for the package you are working on:
-
-Before pushing, run the full test suite:
-
-```bash
-bun test
-```
+Use the project's documented test runner and package manager. Check its
+contributor docs, package scripts, and CI configuration; do not assume a
+particular runner or package manager. During development, run the narrowest
+relevant command for the package or area you changed. Before pushing, run the
+full suite using the project's documented command, or report clearly if it
+could not be run. In a monorepo, use the commands for the affected package and
+the repository-level suite when required by project guidance.
 
 Tests that acquire resources must clean them up.
 
@@ -174,7 +183,8 @@ Tests that acquire resources must clean them up.
 - [ ] Regression fails pre-fix for intended reason, passes after
 - [ ] One owner boundary per contract; no cross-layer replays
 - [ ] Tests exercise behavior, not implementation
-- [ ] Backend logic uses integration tests (real DB) by default
+- [ ] Persistence contracts use integration tests with a real DB; isolated
+      backend logic is tested at the lowest boundary that can reproduce its risk
 - [ ] Mocks only as last resort; prefer real or fake
 - [ ] Each test self-sufficient (no order dependence)
 - [ ] Fast reset (transaction rollback) between integration tests

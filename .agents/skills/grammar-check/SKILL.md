@@ -1,6 +1,6 @@
 ---
 name: grammar-check
-description: Grammar check
+description: Proofreads and edits writing for grammar, spelling, punctuation, clarity, flow, tone, and readability. Use when proofreading or copyediting drafts, documents, messages, or other prose, or when requesting writing feedback.
 disable-model-invocation: true
 ---
 
