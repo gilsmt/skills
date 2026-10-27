@@ -51,3 +51,5 @@ https://github.com/cursor/plugins
 https://github.com/obra/superpowers
 
 https://github.com/vercel/components.build
+
+https://github.com/enesozturk/dimensional-drawing
