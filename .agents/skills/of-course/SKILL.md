@@ -1,6 +1,7 @@
 ---
 name: of-course
 description: Finds high-value obvious-in-hindsight fixes by hunting inconsistency and missed reuse. Use when reviewing a codebase for small surgical quality-of-life improvements, aligning divergent sibling paths, or when the user asks for "of course" improvements.
+disable-model-invocation: true
 ---
 
 # Of Course
@@ -23,7 +24,7 @@ This is not a feature skill. This is not a refactor skill. If the fix needs a ne
 
 ## Workflow
 
-### 1. Map intent first
+### 1. Map intent
 
 Read before hunting. Establish what the code claims to do:
 
@@ -62,23 +63,3 @@ Then write a minimal reproduction showing wrong behavior vs. correct expected be
 - Confirm existing/correct inputs behave exactly as before — only the mishandled case changes.
 - Write the regression test before the fix, watch it fail, apply the fix, watch it pass.
 - Run the repo's gate: lint, type-check, affected tests.
-
-## Output Format
-
-Report exactly one candidate:
-
-- **Inconsistency:** "X does it this way, but Y — which should match — does it that way." With `file:line` cites.
-- **Failure case:** minimal repro, wrong output vs. expected output.
-- **Fix:** smallest diff reusing what exists.
-- **Why it's safe:** which inputs are unchanged and why.
-- **Test:** fails before, passes after.
-
-If no candidate survives proof, say so. A no-change verdict beats a speculative fix.
-
-## Stop Rules
-
-- [ ] Every claim cites a function and line actually read, not assumed.
-- [ ] Fix reuses existing machinery; no new abstraction introduced.
-- [ ] Diff is 1–5 lines or explicitly justified as the minimum.
-- [ ] One-sentence explanation passes the "oh, obviously" test.
-- [ ] Regression test fails pre-fix for the intended reason, passes after.
