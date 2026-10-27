@@ -7,7 +7,7 @@ description: "Clarify a feature, change, or refactor through questions, then wri
 
 Turn a feature idea into a build prompt for another agent, in two phases.
 
-## Phase 1 — Questions
+## 1. Questions
 
 1. Identify the 3-6 most non-obvious open questions about the feature or
    change: edge cases, where it lives in the UI, failure behavior, scope
@@ -18,29 +18,29 @@ Turn a feature idea into a build prompt for another agent, in two phases.
    renderers (bb included) collapse single newlines into one paragraph, so
    options written back-to-back render as one run-on blob.
 
-    **Question title?**
+   **Question title?**
 
-    One line of context, if needed.
+   One line of context, if needed.
 
-    A. First option.
+   A. First option.
 
-    B. Second option.
+   B. Second option.
 
-    C. Third option.
+   C. Third option.
 
-    D. Fourth option.
+   D. Fourth option.
 
-    My pick: A. One-line reason.
+   My pick: A. One-line reason.
 
-    Never number questions as "1 of N" unless you truly know N. If the count
-    is open, keep it open and keep asking until you have the context you need.
+   Never number questions as "1 of N" unless you truly know N. If the count
+   is open, keep it open and keep asking until you have the context you need.
 
 3. When the user answers, record the decision immediately — update the repo's
    docs (product requirements, ADR, or README) if the project has them.
 4. If the user overrides an earlier documented decision, update the docs right
    away and say what was superseded.
 
-## Phase 2 — Prompt
+## 2. Prompt
 
 After the last answer, deliver ONE concise paragraph prompt for another
 agent. It must include, in this order:
@@ -51,7 +51,7 @@ agent. It must include, in this order:
 3. How to validate: build, lint, and a manual check with real data.
 4. Rules: don't commit, report back with files changed.
 
-## Style
+### Style
 
 - Very concise, plain English, short sentences.
 - Never bundle questions. Never write the prompt before all answers are in.
