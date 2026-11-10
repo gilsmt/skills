@@ -8,6 +8,8 @@ They're built as a way to fix common failures I see with Claude Code, Codex, and
 
 Software engineering fundamentals matter more than ever. These skills are my best effort at condensing these fundamentals into repeatable practices.
 
+This collection deliberately lacks any project-specific skills such as review skills, coding practices, or project management skills.
+
 ## Where to find more quality skills
 
 https://skills.sh
