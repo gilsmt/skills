@@ -42,10 +42,6 @@ No HOC where a hook does. No primitive stacks (`Box` → `Stack` → `BaseButton
 no slot-based compound component for one or two fixed layouts, no wrapper that only forwards fixed props,
 unless they already exist.
 
-**Styling.** If the project uses utility CSS (Tailwind or similar): utility classes on the element.
-No per-component class holding one or two declarations. No `variant` → class map → `.btn-x` → `--token` chain.
-A shared token only for values many components share and change together.
-
 **Naming.** No layer that only renames (`STATUS_TO_TYPE[status]`). Reuse the names of the library, API or
 backend you consume, even when they are slightly off. One vocabulary, not two.
 When you do abstract, name the file after the concern it owns. Good file names are the one abstraction
@@ -56,12 +52,3 @@ Never refactor toward abstraction unasked. Never extract helpers, constants or c
 not asked to touch. On meeting a wrong abstraction, prefer inlining it back into its callers over extending it.
 Removing a feature: delete every type, handler, token or layer left with no other user.
 Nothing "for future flexibility". Wait for the third concrete case.
-
-**Before you add a boundary, ask:**
-
-1. What does it hide? "Nothing, it forwards" → do not add it.
-2. How many callers today? Fewer than three → inline.
-3. Does the reader now open more files to answer a trivial question? → reconsider.
-4. Is this the deepest place scoped to the value, or am I about to prop-drill?
-
-Source: [The Cost of Abstraction for Humans and AI Agents](https://ondrejvelisek.github.io/the-cost-of-abstraction-for-humans-and-ai-agents).
