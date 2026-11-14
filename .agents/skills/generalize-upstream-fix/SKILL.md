@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## Overview
 
-Extract the bug class from an upstream change, not its specifics. Audit the local codebase for the same shape. Fix only verified instances.
+Extract the bug class from an upstream change, not its specifics. Audit the local codebase for the same shape or similar. Fix only verified instances.
 
 ## Workflow
 
