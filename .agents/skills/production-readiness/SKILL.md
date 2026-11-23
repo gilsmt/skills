@@ -208,4 +208,3 @@ Going through this list takes ~1 hour for a small app. The cost of skipping it i
 - Founder-eyes-shut-on-the-couch debugging at 2am
 - "We just have to launch" turning into "we just had to launch with all the holes"
 
-Not optional. Run it.
