@@ -1,11 +1,7 @@
 ---
 name: refactor
-description: Structural refactoring and code simplification pass. Use this skill whenever the user wants to clean up, simplify, refactor, restructure, or improve code clarity, consistency, maintainability, or efficiency. Triggers on phrases like "refactor", "clean up", "simplify", "improve readability", "remove duplication", "make this cleaner", "optimize this code", or any request to restructure, consolidate, or polish recently modified or existing code and documentation. Also trigger when reviewing changed code for reuse, quality, and efficiency issues.
+description: Structural refactoring and code simplification pass. Use this skill whenever the user wants to review or clean up, simplify, refactor, restructure, or improve code clarity, consistency, maintainability, or efficiency.
 ---
-
-# Refactor and Simplify
-
-Refactor and simplify code to improve clarity, consistency, and maintainability while preserving exact functionality. This skill combines structural cleanup, duplication removal, and quality review into a single workflow. Fix any issues found.
 
 ## Core Principles
 
@@ -26,9 +22,19 @@ Simplify structure by reducing unnecessary complexity and nesting. Eliminate red
 - Remove unnecessary comments that describe obvious code
 - Declare variables at the smallest possible scope
 
+### Simplify Function Boundaries
+
+Treat these as heuristics, not rules. Preserve behavior and keep a function when its boundary makes the code clearer.
+
+- Inline a helper used from one place. When work repeats across callers, first see whether the callers can share one path, perhaps through a small option or defaulted parameter, then inline the duplicate logic.
+- Combine near-identical variants with meaningful parameters. Avoid flag-heavy functions that obscure distinct behavior.
+- When logic is close to pure, pass its inputs explicitly and return results instead of relying on global state.
+- For a shared function, use const-qualified inputs and methods where the language supports them and the function's contract allows it.
+- Reduce branching and nesting. Prefer a consistent execution path when its extra work is minor; keep guards or fast paths when the avoided work matters.
+
 ### Remove Duplication
 
-Find and consolidate duplicate code into reusable functions or shared utilities. Identify repeated patterns across files and extract common abstractions. Merge similar configuration or setup instructions.
+Find duplicate code and consolidate it where a shared path is clearer in the adequate domain boundary. Repeated work should often go through one function or utility; a helper used from only one place should usually be inlined. Identify repeated patterns across files, and extract shared abstractions only when there is real cross-domain reuse. Merge similar configuration or setup instructions.
 
 ### Maintain Balance
 
@@ -60,13 +66,15 @@ Analyze the code from three angles. Use the Task tool to launch all three agents
 Review the relevant file(s) for hacky patterns:
 
 1. **Redundant state**: state that duplicates existing state, cached values that could be derived, observers/effects that could be direct calls
-2. **Parameter sprawl**: adding new parameters to a function instead of generalizing or restructuring existing ones
+2. **Parameter sprawl**: adding new parameters to a function instead of generalizing or restructuring existing ones; too many parameters suggest the boundary is wrong
 3. **Copy-paste with slight variation**: near-duplicate code blocks that should be unified with a shared abstraction
 4. **Leaky abstractions**: exposing internal details that should be encapsulated, or breaking existing abstraction boundaries
 5. **Stringly-typed code**: using raw strings where constants, enums (string unions), or branded types already exist in the codebase
 6. **Unnecessary JSX nesting**: wrapper Boxes/elements that add no layout value — check if inner component props (flexShrink, alignItems, etc.) already provide the needed behavior
-7. **Parameter sprawl**: passing too many parameters to a function, making it hard to read and maintain. Check whether the boundary is wrong
-8. Keep domain-specific logic close to its domain unless there is proven cross-domain reuse
+7. **Single-use helpers**: helpers called from one place that would read better inlined, or duplicated work that should share one path
+8. **Near-identical variants**: function variants that differ by a flag or small branch and could combine with a meaningful parameter; flag-heavy functions that obscure distinct behavior
+9. **Hidden inputs**: helpers that read or mutate global state when explicit inputs and return values would keep them predictable
+10. Keep domain-specific logic close to its domain unless there is proven cross-domain reuse
 
 ### Agent 3: Efficiency Review
 

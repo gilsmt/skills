@@ -3,8 +3,6 @@ name: testing
 description: Guides writing, reviewing, and improving software tests, including test selection, unit and integration testing, regression coverage, and test quality. Use when creating or evaluating tests for code.
 ---
 
-<!-- Based on https://github.com/unkeyed/unkey/blob/main/docs/engineering/contributing/quality/testing/index.mdx -->
-
 ## Why we test
 
 Tests exist to give confidence. Confidence to ship changes quickly, confidence that refactoring will not break production, confidence that the system behaves as expected. A test suite with 90 percent coverage that misses critical edge cases is less valuable than one with 60 percent coverage that catches real bugs. Tests must earn their place: every new test has to catch a realistic regression no existing test already catches (if you can't name it, don't add it), assert observable behavior through the public interface rather than implementation details, and stay cheap — deterministic, isolated, and at the lowest level that catches the bug.
@@ -147,13 +145,13 @@ Do not verify every log line or metric increment. Test metrics that drive alerts
 ```ts
 // Pseudocode: use the test and assertion APIs provided by this project.
 test("rate limiter emits rejection metric", () => {
-  const collector = new TestMetricCollector();
-  const limiter = new RateLimiter({ limit: 1 }, collector);
+    const collector = new TestMetricCollector();
+    const limiter = new RateLimiter({ limit: 1 }, collector);
 
-  limiter.allow();
-  limiter.allow();
+    limiter.allow();
+    limiter.allow();
 
-  expect(collector.count("rate_limit_rejected_total")).toBe(1);
+    expect(collector.count("rate_limit_rejected_total")).toBe(1);
 });
 ```
 
